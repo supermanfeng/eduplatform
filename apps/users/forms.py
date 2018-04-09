@@ -5,7 +5,8 @@ from django import forms
 from captcha.fields import CaptchaField
 from .models import UserProfile
 
-
+# 这些表单都是限制前端提交数据的
+# 　ｒｅｑｕｉｒｅ是要求必填
 class LoginForm(forms.Form):
     username = forms.CharField(required=True)
     password = forms.CharField(required=True, min_length=5)

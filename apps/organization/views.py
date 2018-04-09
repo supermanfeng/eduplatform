@@ -21,6 +21,7 @@ class OrgView(View):
         all_citys = CityDict.objects.all()
         # 机构搜索
         search_keywords = request.GET.get('keywords', '')
+        # 两个搜索条件,只要满足两个条件的都要
         if search_keywords:
             all_orgs = all_orgs.filter(
                 Q(name__icontains=search_keywords) | Q(desc__icontains=search_keywords))
@@ -136,7 +137,7 @@ class OrgTeacherView(View):
 
 
 class AddFavView(View):
-    # 用户收藏 点赞
+    # 用户收藏,用户取消收藏
     def post(self, request):
         fav_id = request.POST.get("fav_id", 0)
         fav_type = request.POST.get("fav_type", 0)
