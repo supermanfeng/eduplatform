@@ -34,8 +34,6 @@ class ResetView(View):
         else:
             return render(request, "active_fail.html")
 
-        return render(request, "login.html")
-
 
 class ModifyPwdView(View):
     # 用户修改修改密码
@@ -187,7 +185,9 @@ class UserInfoView(View):
         })
 
     def post(self, request):
+        # instance是确定是哪个用户的信息表单
         user_info_form = UserInfoForm(request.POST, instance=request.user)
+        # 如果表单存在
         if user_info_form.is_valid():
             user_info_form.save()
             return HttpResponse('{"status":"success"}', content_type='application/json')
@@ -196,7 +196,7 @@ class UserInfoView(View):
 
 
 class UpLoadImageView(View):
-    # 上传头像
+    # 上传修改头像,
     def post(self, request):
         image_form = UpLoadImageForm(request.POST, request.FILES, instance=request.user)
         if image_form.is_valid():
@@ -220,13 +220,16 @@ class UpdatePwdView(View):
             user.save()
             return HttpResponse('{"status":"success"}', content_type='application/json')
         else:
+            # 将错误日志转换成字符串传过去,因为 form的错误是成对出现的
             return HttpResponse(json.dumps(modify_form.errors), content_type='application/json')
 
 
+# 必须保证用户的登录状态,所以使用LoginRequirements
 class SendEmailCodeView(LoginRequiredMixin, View):
     # 发送邮箱验证码
     def get(self, request):
         email = request.GET.get("email", "")
+        # 必须保证注册邮箱是没有使用过的
         if UserProfile.objects.filter(email=email):
             return HttpResponse('{"email":"邮箱已经存在"}', content_type='application/json')
 
@@ -238,6 +241,7 @@ class UpdataEmailView(LoginRequiredMixin, View):
     def post(self, request):
         email = request.POST.get("email", "")
         code = request.POST.get("code", "")
+        # 前段提交验证码 和邮箱  根据邮箱和验证码在数据库中查询出记录  如果记录存在就保存信息
         existed_records = EmailVerifyRecord.objects.filter(email=email, code=code, send_type='update_email')
         if existed_records:
             user = request.user

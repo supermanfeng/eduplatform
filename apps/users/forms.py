@@ -5,6 +5,7 @@ from django import forms
 from captcha.fields import CaptchaField
 from .models import UserProfile
 
+
 # 这些表单都是限制前端提交数据的
 # 　ｒｅｑｕｉｒｅ是要求必填
 class LoginForm(forms.Form):
@@ -29,11 +30,13 @@ class ModifyPwdForm(forms.Form):
 
 
 class UpLoadImageForm(forms.ModelForm):
+    # model中image字段已经存在,所以继承,使用ModelForm
     class Meta:
         model = UserProfile
         fields = ['image']
 
 
+# 个人信息页面的表单
 class UserInfoForm(forms.ModelForm):
     class Meta:
         model = UserProfile
