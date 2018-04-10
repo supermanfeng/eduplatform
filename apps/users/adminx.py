@@ -17,8 +17,8 @@ class BaseSetting(object):
 
 
 class GlobalSettings(object):
-    site_title = "菜鸟后台管理系统"
-    site_footer = "菜鸟在线网"
+    site_title = "帝都后台管理系统"
+    site_footer = "帝都在线网"
     menu_style = "accordion"
 
 

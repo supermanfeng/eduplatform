@@ -32,9 +32,9 @@ urlpatterns = [
     url(r'^logout/$', LogOutView.as_view(), name="logout"),
     url(r'^register/$', RegisterView.as_view(), name="register"),
     url(r'^captcha/', include('captcha.urls')),
-    url(r'^active/(?P<active_code>\.*)/$', ActiveUserView.as_view(), name="ActiveUserView"),
+    url(r'^active/(?P<active_code>.*)/$', ActiveUserView.as_view(), name="ActiveUserView"),
     url(r'^forget/$', ForgetPwdView.as_view(), name="ForgetPwdView"),
-    url(r'^reset/(?P<active_code>\.*)/$', ResetView.as_view(), name="ResetView"),
+    url(r'^reset/(?P<active_code>.*)/$', ResetView.as_view(), name="ResetView"),
     url(r'^modify_pwd/$', ModifyPwdView.as_view(), name="ModifyPwdView"),
     # 课程机构URL配置
     url(r'^org/', include('organization.urls', namespace="org")),

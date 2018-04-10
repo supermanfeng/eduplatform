@@ -132,7 +132,6 @@ class RegisterView(View):
 class LogOutView(View):
     def get(self, request):
         logout(request)
-
         return HttpResponseRedirect(reverse("index"))
 
 
@@ -150,6 +149,8 @@ class LoginView(View):
             if user is not None:
                 if user.is_active:
                     login(request, user)
+                    # 如果直接render  index.html  首页是
+                    # 不会显示数据的 ,可使用重定向,到index的url然后在 加载index的view就有数据了
                     return HttpResponseRedirect(reverse("index"))
                 else:
                     return render(request, "login.html", {"msg": "用户没有激活！"})
@@ -339,8 +340,8 @@ class IndexView(View):
     def get(self, request):
         # 取出轮播图
         all_banners = Banner.objects.all().order_by('index')
-        courses = Course.objects.filter(is_banner=False)[:4]
-        banner_courses = Course.objects.filter(is_banner=False)[:3]
+        courses = Course.objects.filter(is_banner=False)[:6]
+        banner_courses = Course.objects.filter(is_banner=True)[:3]
         course_orgs = Course.objects.all()[:15]
 
         return render(request, "index.html", {

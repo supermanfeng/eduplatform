@@ -24,8 +24,10 @@ class UserProfile(AbstractUser):
     def __unicode__(self):
         return self.username
 
+    # 这里的方法可以在前端模板语言中使用
     def unread_message_nums(self):
         # 获取用户未读消息的数量
+        # 在这里import是只有在调用函数的时候才会import  不会循环引用
         from operation.models import UserMessage
         return UserMessage.objects.filter(user=self.id, has_read=False).count()
 
